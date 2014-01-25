@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.imemorize.android" >
+    package="org.imemorize" >
 
     <application
-        android:name="org.imemorize.android.ImemorizeApplication"
+        android:name="org.imemorize.ImemorizeApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:logo="@drawable/default_app_logo"
@@ -11,7 +11,7 @@
         android:theme="@style/CustomActionBarTheme"
          >
         <activity
-            android:name="org.imemorize.android.activity.MainActivity"
+            android:name="org.imemorize.activity.MainActivity"
             android:label="@string/title_activity_memorize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,21 +20,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.imemorize.android.activity.CategoryListActivity"
-            android:parentActivityName="org.imemorize.android.activity.MainActivity" >
+            android:name="org.imemorize.activity.CategoryListActivity"
+            android:parentActivityName="org.imemorize.activity.MainActivity" >
         </activity>
         <activity
-            android:name="org.imemorize.android.activity.QuoteListActivity"
+            android:name="org.imemorize.activity.QuoteListActivity"
             android:label="@string/title_activity_memorize"
-            android:parentActivityName="org.imemorize.android.activity.MainActivity" >
+            android:parentActivityName="org.imemorize.activity.MainActivity" >
         </activity>
 
         <activity
-            android:name="org.imemorize.android.activity.MemorizeActivity"
+            android:name="org.imemorize.activity.MemorizeActivity"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name="org.imemorize.android.activity.AddQuoteActivity"
+            android:name="org.imemorize.activity.AddQuoteActivity"
             android:label="@string/app_name" >
 
     </activity>

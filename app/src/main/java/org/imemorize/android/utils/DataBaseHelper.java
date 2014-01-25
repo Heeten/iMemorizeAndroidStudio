@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import org.imemorize.android.model.Category;
-import org.imemorize.android.model.Consts;
-import org.imemorize.android.model.Quote;
+import org.imemorize.model.Category;
+import org.imemorize.model.Consts;
+import org.imemorize.model.Quote;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -13,7 +13,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.imemorize.android.model.Quote;
+import org.imemorize.model.Quote;
 
 import java.io.BufferedReader;
 import java.io.IOException;

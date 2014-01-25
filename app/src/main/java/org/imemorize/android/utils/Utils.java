@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import org.imemorize.android.model.Consts;
-import org.imemorize.android.model.Quote;
+import org.imemorize.model.Consts;
+import org.imemorize.model.Quote;
 
 /**
  * Created by briankurzius on 1/12/14.

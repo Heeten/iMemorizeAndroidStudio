@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ImemorizeAndroid2.iml" filepath="$PROJECT_DIR$/ImemorizeAndroid2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iMemorizeAndroidStudio.iml" filepath="$PROJECT_DIR$/iMemorizeAndroidStudio.iml" />
     </modules>
   </component>
 </project>
