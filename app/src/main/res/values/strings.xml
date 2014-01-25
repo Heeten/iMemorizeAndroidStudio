@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">iMemorize</string>
+
+    <string name="btn_name_choose_quote">Select a quote</string>
+    <string name="btn_name_add_quote">Add a quote</string>
+    <string name="title_choose_category">Select a category</string>
+    <string name="title_choose_quote">Select a quote</string>
+
+
+    <string name="menu_settings">Settings</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_font_size">Change Font Size</string>
+    <string name="menu_add_quote">Add Quote</string>
+    <string name="menu_feedback">Send Feedback</string>
+
+
+    <string name="title_activity_main">iMemorize</string>
+    <string name="title_activity_memorize">iMemorize</string>
+    <string name="title_activity_quote_list">QuoteListActivity</string>
+
+    <!--    BUTTONS     -->
+
+    <string name="btn_label_previous">\u003C</string>
+    <string name="btn_label_next">\u003E</string>
+    <string name="btn_label_hide_words">Hide words</string>
+    <string name="btn_label_show_words">Show words</string>
+    <string name="btn_label_edit_quote">Edit quote</string>
+    <string name="btn_label_done">Done</string>
+
+    <string name="btn_label_select_quote">Select a quote</string>
+    <string name="btn_label_add_quote">Add a quote</string>
+    <string name="btn_label_search_quotes">Search quotes</string>
+
+
+    <string name="font_size">Font Size</string>
+    <string name="choose_font_size">Select Font Size</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="choose_language">Select Language</string>
+
+    <string name="btn_language_text">Quote language: </string>
+
+
+
+    <!--    LABELS     -->
+
+    <string name="label_text">Text</string>
+    <string name="label_author">Author</string>
+    <string name="label_reference">Reference</string>
+    <string name="label_submit">Submit</string>
+    <string name="label_cancel">Cancel</string>
+
+
+    <string name="label_add_quote">Save Quote</string>
+    <string name="label_add_quote_and_memorize">Save quote and start memorizing</string>
+
+    <string name="search_title">Search all quotes</string>
+    <string name="search_btn_search">Search</string>
+    <string name="search_btn_cancel">Cancel</string>
+    <string name="search_error_no_text">You did not enter a search term. Please try again.</string>
+    <string name="search_results_string" formatted="false">Your search for \'%1s\' returned %2s results</string>
+
+    <string name="category_label_my_quotes">Saved quotes</string>
+    <string name="category_label_favorites">Favorite quotes</string>
+    <string name="category_label_memorized">Memorized quotes</string>
+
+    <!--    PROMPTS     -->
+
+    <string name="prompt_quote_added">Your quote was added</string>
+    <string name="prompt_quote_updated">Your quote was updated</string>
+    <string name="prompt_quote_deleted">The quote was deleted</string>
+    <string name="prompt_quote_not_added">The quote was not added</string>
+    <string name="prompt_quote_error_no_text">You need to enter text for this quote. Please try again.</string>
+    <string name="prompt_quote_first_in_set">This is the first quote in this set</string>
+    <string name="prompt_quote_last_in_set">This is the last quote in this set</string>
+    <string name="prompt_no_favorites">You haven\'t selected any favorite quotes yet</string>
+    <string name="prompt_no_memorized">You haven\'t selected any memorized quotes yet</string>
+    <string name="prompt_no_user_quotes">You haven\'t added any of your own quotes yet</string>
+
+    <string name="prompt_memorize_activity_instructions_title">To memorize a quote</string>
+    <string name="prompt_memorize_activity_instructions">Press a word to hide it. \n\nPress it again to show it. \n\nYou can also move forward and back in the quote set by using the buttons below.</string>
+
+
+    <string name="prompt_quote_added_to_favorites">The quote was added to your favorites</string>
+    <string name="prompt_quote_removed_from_favorites">The quote was removed from favorites</string>
+    <string name="prompt_quote_added_to_memorized">The quote was saved to your memorized quotes</string>
+    <string name="prompt_quote_removed_from_memorized">The quote was removed from memorized quotes</string>
+
+    <string name="share_title">Just found this quote on iMemorize!</string>
+    <string name="share_body" formatted="false">%1s  \n\n </string>
+    <string name="share_url" formatted="false">Go here to memorize this quote: http://www.imemorize.org/lite/?s=a&amp;id=%1s \n\n </string>
+    <string name="share_user_url" formatted="false">Go here to memorize this quote: http://www.imemorize.org/lite/?s=a&amp;t=u&amp;id=%1s \n\n </string>
+    <string name="share_download_url">Go here to download the app: http://www.imemorize.org/download.html</string>
+
+    <!--feedback-->
+    <string name="feedback_email">brian@imemorize.org</string>
+    <string name="feedback_subject">Feedack on iMemorize-Android</string>
+
+
+
+
+
+
+
+</resources>

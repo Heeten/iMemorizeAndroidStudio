@@ -1,0 +1,362 @@
+/* css style */
+ body{
+	color: #222;
+	font-family:Helvetica;
+	font-size:10pt;
+	margin:0;
+	padding:0;	
+ }
+ 
+/* remove dotted line around links */
+a{
+	outline: 0;
+}
+
+#content{
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#header{
+	background-image:url("../images/header-large.png");
+	height:92px;
+}
+
+#fontSize{
+	width:120px;
+	border-left:1px solid #666;
+	float:right;
+	font-size:10px;
+	line-height:35px;
+	padding-left:10px;
+}
+
+#fontSize a{
+	color:#aaa !important;
+	text-decoration:none;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+#fontSize a:hover{
+	text-decoration:underline;
+}
+
+#gamePanel{
+	font-family:Helvetica;
+	font-size:14pt;
+	font-weight:bold;
+	margin:10px;
+	background-color:#FFFFFF;
+	overflow:auto;
+	padding: 10px 10px 10px 10px;
+}
+ 
+.buttonDisabled{
+	color:#999999;
+	background-color:#AAAAAA;
+	cursor:none;
+}
+
+.hiddenWord{
+	background-color:#FFFFFF;
+	display:inline;
+	float:left;
+	margin:1px;
+	padding:3px 1px 4px 1px;
+	font-size:20px;	
+	cursor:pointer;
+	border:1px solid #FFFFFF;
+}
+
+
+.hide{
+	color:#FFFFFF;
+	border:1px solid #777777;
+	-webkit-box-shadow: 1px 1px 3px #888;
+	-moz-box-shadow: 1px 1px 3px #888;
+}
+
+.show{
+	color:#000000;
+	border:1px solid #FFFFFF;	
+}
+
+.btnDisabled{
+	color:#999999;
+} 
+
+
+#gameWindow{
+	margin:0;
+	list-style:none;	
+}
+
+#gameButtons{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	width:100%;	
+}
+
+
+#settings{
+	position:absolute;
+	top:80px;
+	left:50px;	
+	width:220px;
+	border:1px solid #999999;
+	background-color:#FFFFFF;
+	font-size:18px;
+	z-index:9999;		
+}
+
+#settings #contents{
+	padding: 10px;
+	text-align:center;
+	margin-right:auto;
+	margin-left:auto;
+}
+
+#settings #menubar{
+	color:#FFFFFF;
+	text-shadow: 1px 1px 4px #000000;
+	height:35px;
+	line-height:35px;
+	border-bottom:1px solid #999999;
+	text-align:center;
+	font-weight:bold;
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#666), to(#000));
+	background: -moz-linear-gradient(top, #666, #000);
+	background-color:#CCCCCC;
+}
+
+#menubar #closeBox{
+	//padding:3px;
+	float:right;
+	border-left:1px solid #999999;
+	line-height:35px;
+	width:35px;
+	text-align:center;
+	font-weight:bold;
+}
+
+#closeBox a{
+	text-decoration:none;
+	color:#999999;
+}
+
+#gameNav{
+	width:100%;
+	border:0px !important;
+	height:35px;
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#666), to(#000));
+	background: -moz-linear-gradient(top, #666, #000);
+	background-color:#333;
+	font-family:Helvetica;
+	font-size:16px;
+	font-weight:bold;	
+}
+
+
+
+#gameNavButtonHolder{
+	width:340px;
+	margin-right:auto;
+	margin-left:auto;
+	/*border-left:1px solid #3C9;*/
+}
+
+#gameNavButtonHolder div{
+	float:left;
+	height:35px;
+	line-height:35px;
+	border-right: 2px solid #555577;
+	padding-right:15px;
+	padding-left:15px;
+	width:135px;
+	text-align:center;
+	
+}
+
+
+#gameNavButtonHolder div:first-child{
+	border-left: 2px solid #555577;
+}
+
+.btnDown{
+	background-color:#069;
+}
+
+#gameNav a{
+	color:#FFFFFF;
+	text-shadow: 1px 1px 4px #000000;
+	text-decoration:none;
+}
+
+
+#gameNavButtonHolder a:hover{
+	text-decoration:underline;
+	color:#9C6;
+}
+
+
+#showSettings{
+	float:right;
+	width:35px;
+	border-left:1px solid #666666;
+	line-height:35px; 
+}
+
+#showSettings a{
+	color:#FFFFFF;
+	text-decoration:none;
+	font-family:"Arial Black";
+	font-size:18px;
+	font-weight:bold;
+}
+
+.source, .introtext{
+	width:100%;
+	float:left;
+	font-size:14px;
+	font-weight:200;
+	padding-top:10px;
+	padding-bottom:10px;
+	clear:both;
+}
+
+#shareThis{
+	float:left;
+	margin-top:5px;
+	margin-left:5px;
+	visibility:hidden;
+}
+
+/* modal styles */
+
+/* Z-index of #mask must lower than #boxes .window */
+#mask {
+  position:absolute;
+  z-index:9000;
+  background-color:#FFF;
+  display:none;
+  top:0px;
+  left:0px;
+  opacity:.03;
+}
+  
+#boxes .window {
+  position:absolute;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9999;
+}
+
+
+/* Customize your modal window here, you can add background image too */
+#boxes #dialog {
+  width:375px; 
+  height:200px;
+  border:1px solid #000;
+  background-color:#FFF;
+}
+
+#dialogHeader{
+	height:30px;
+	background-color:#CC0;
+	line-height:30px;
+	padding-left:20px;
+	font-weight:bold;
+}
+
+#dialogClose{
+	width:50px;
+	height:30px;
+	background-color:#000;
+	float:right;
+}
+#dialogClose a{
+	padding-left:8px;
+	color:#FFF;
+	text-decoration:none;
+	margin-right:auto;
+	margin-left:auto;
+}
+
+#dialogClose a:hover{
+	text-decoration:underline;
+}
+
+#dialogContents{
+	padding:20px;
+	font-size:14px;
+}
+
+#downloadapp{
+	width:200px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 5px;
+	margin-bottom:5px;
+	
+}
+#downloadPanel{
+	width:100%;
+	padding-top:5px;
+	padding-bottom:5px;
+	line-height:17px;
+	text-align:center;
+	background-color:#EEE;
+	color:#999;
+}
+
+.indentRTL{
+	margin-right:20px !important;
+}
+
+.indentLTR{
+	margin-left:20px !important;
+}
+
+.hiddenWordRTL{
+ 	background-color:#FFFFFF;
+	display:inline;
+	float:right;
+	padding:3px 1px 4px 1px;
+	margin:6px;
+	font-size:20px;	
+	cursor:pointer;
+	border:1px solid #FFFFFF;
+	direction:rtl;	
+}
+
+.hiddenWordLogogram{
+	background-color:#FFFFFF;
+	display:inline;
+	float:left;
+	padding:1px 1px 2px 1px;
+	margin:0px;
+	font-size:20px;	
+	cursor:pointer;
+	border:1px solid #FFFFFF;
+}
+
+.RTL{
+	direction:rtl;
+}
+
+.LTR{
+	direction:ltr;
+}
+
+.clearRight{
+    clear:right;
+}
+
+.clearBoth{
+    clear:both;
+}

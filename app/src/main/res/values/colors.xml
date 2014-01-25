@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="memorize_toolbar_bg">#718404</color>
+    <color name="memorize_toolbar_separator">#66FFFFFF</color>
+    <color name="category_header_bg">#DDDDDD</color>
+
+    <color name="list_color">#FFFFFF</color>
+    <color name="list_bg_color">#ffe7e7e6</color>
+
+
+    <color name="home_bg">#7B9201</color>
+    <color name="home_btn_bg">#E7EEDE</color>
+    <color name="home_btn_bg_selected">#ffb0b5a1</color>
+
+
+    <color name="actionbar_bg">#ff311f59</color>
+    <color name="actionbar_text">#FFFFFF</color>
+
+    <color name="main_btn_green_bg">#ff728909</color>
+    <color name="main_btn_turquoise_bg">#ff00b98a</color>
+    <color name="main_btn_blue_bg">#ff00a4a4</color>
+    <color name="main_btn_text">#FFFFFF</color>
+
+
+    <color name="memorize_btn_bg">#ff728909</color>
+    <color name="memorize_btn_selected_bg">#3A4401</color>
+
+    <color name="add_quote_language_btn_bg">#ff2d1659</color>
+    <color name="add_quote_language_btn_text">#ffffff</color>
+
+</resources>

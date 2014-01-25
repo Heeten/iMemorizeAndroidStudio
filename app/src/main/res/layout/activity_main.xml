@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+
+<LinearLayout
+
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+                android:gravity="center"
+              android:orientation="vertical"
+            android:padding="30dp"
+
+    android:id="@+id/linearLayout">
+
+    <ImageButton
+        android:id = "@+id/btn_choose_quote"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:text = "@string/btn_label_select_quote"
+        android:layout_gravity="center_horizontal"
+        style="@style/BtnGreen"
+        android:src="@drawable/home_page_button_select"
+        android:paddingLeft="10dp"
+        android:padding="10dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp" />
+    <ImageButton
+        android:id = "@+id/btn_add_quote"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:text = "@string/btn_label_add_quote"
+        android:layout_gravity="center_horizontal"
+
+        style="@style/BtnGreen"
+        android:src="@drawable/home_page_button_add" />
+    <ImageButton
+        android:id = "@+id/btn_search_quotes"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+
+        android:text = "@string/btn_label_search_quotes"
+        android:layout_gravity="center_horizontal"
+
+        style="@style/BtnGreen"
+        android:src="@drawable/home_page_button_search" />
+
+
+</LinearLayout>
+
+
+</RelativeLayout>

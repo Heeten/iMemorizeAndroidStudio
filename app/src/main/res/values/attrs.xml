@@ -1,0 +1,16 @@
+<resources>
+   <declare-styleable name="PieChart">
+       <attr name="showText" format="boolean" />
+       <attr name="labelPosition" format="enum">
+           <enum name="left" value="0"/>
+           <enum name="right" value="1"/>
+       </attr>
+   </declare-styleable>
+   <declare-styleable name="HomeButton">
+       <attr name="boldText" format="boolean" />
+       <attr name="bgDarkLight" format="enum">
+           <enum name="dark" value="0"/>
+           <enum name="light" value="1"/>
+       </attr>
+   </declare-styleable>
+</resources>

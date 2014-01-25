@@ -1,0 +1,610 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    	<meta name="viewport" content="user-scalable=yes,width=device-width" />
+        <link href="css/reset.css" type="text/css" rel="stylesheet" />
+        <link href="css/liteStyle.css" type="text/css" rel="stylesheet" />  
+        <link media="only screen and (max-device-width: 480px)" href="css/handheldLiteStyle.css" type="text/css" rel="stylesheet" /> 
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>A quote from iMemorize</title>
+    </head>
+	<body onload="init()">
+    	<div id="content">    	           
+            <div id="gameWindow">			                   
+                <div id="gamePanel" class="gamePanel"></div>	           
+            </div> 
+           <!-- <div> <a href="javascript:HideQuoteGame.hideWords()">hide words</a> | <a href="javascript:HideQuoteGame.showAllWords()">show all</a> </div> -->
+        </div>
+
+    	<!---<div id="trace" style="width=500px;height:300px;overflow:scroll" ></div>	 /--->	
+		<script type="text/javascript" src="js/SCScripts.js" ></script>
+        <script type="text/javascript" src="js/jquery.js" ></script>
+        <script type="text/javascript">
+        
+            /***********************************************
+            * Disable Text Selection script- � Dynamic Drive DHTML code library (www.dynamicdrive.com)
+            * This notice MUST stay intact for legal use
+            * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+            ***********************************************/
+            
+            function disableSelection(target){
+            if (typeof target.onselectstart!="undefined") //IE route
+                target.onselectstart=function(){return false}
+            else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
+                target.style.MozUserSelect="none"
+            else //All other route (ie: Opera)
+                target.onmousedown=function(){return false}
+            target.style.cursor = "default"
+            }
+            
+			// data
+            var totalHidden = 0;
+            var gameWindow = "";
+            var gamePanel = "";
+            var currentMenuNode = "";
+            var breadcrumb = "";
+            var menuHistory = new Array();
+            var historyIndex = 0;
+            var fontSize = 20;
+            var menuData = "";
+            var currQuoteIndex = 0;
+            var currQuote = "";
+            var currQuoteSet = "";
+            var currQuoteSetLength = 0;	
+            var currMenuNodeIndex=0;
+            var menuHistory = new Array();
+            var menuInited = false;
+            var $width;
+            var dialog;
+			
+			// functions
+			var setHandheldLayout;
+			var setNormalLayout;
+			var fadeIn;
+			var hideDialog;
+			
+			// classes
+			var HideQuoteGame;
+            
+			
+            // add this to the jQuery prototype so we can properly compare two objects
+			$.fn.equals = function(compareTo) {				
+				if (!compareTo || !compareTo.length || this.length!=compareTo.length)
+				{
+				 return false;
+				}				
+				for (var i=0; i<this .length; i++) {				
+				if (this[i]!==compareTo[i]) {				
+				  return false;				
+				}				
+				}				
+				return true;				
+			} 
+
+             function init(){
+                //if close button is clicked
+                $width = $(window).width();
+	
+                gamePanel = getElement("gamePanel");
+                gameWindow = getElement("gameWindow");
+                gameWindow.style.visibility = "hidden";
+                //showGame();
+				//HideQuoteGame.buildQuoteScreen("My God, my Adored One, my King, my Desire! What tongue can voice my thanks to Thee? I was heedless, Thou didst awaken me. I had turned back from Thee, Thou didst graciously aid me to turn towards Thee. I was as one dead, Thou didst quicken me with the water of life. I was withered, Thou didst revive me with the heavenly stream of Thine utterance which hath flowed forth from the Pen of the All-Merciful. <br/>O Divine Providence! All existence is begotten by Thy bounty; deprive it not of the waters of Thy generosity, neither do Thou withhold it from the ocean of Thy mercy. I beseech Thee to aid and assist me at all times and under all conditions, and seek from the heaven of Thy grace Thine ancient favor. Thou art, in truth, the Lord of bounty, and the Sovereign of the kingdom of eternity.","","","","2,4,6,8,18,30");
+				//HideQuoteGame.buildQuoteScreen("My God, my Adored One, my King, my Desire! ","","","","");
+            }
+			
+			$(window).resize(function() {
+ 				// alert("the window was resized");
+			});
+
+
+			
+            fadeIn = function(_id){           
+                dialog = $(_id);
+            
+                //Get the screen height and width
+                var maskHeight = $(document).height();
+                var maskWidth = $(window).width();
+            
+                //Set height and width to mask to fill up the whole screen
+                $('#mask').css({'width':maskWidth,'height':maskHeight});
+                
+                //transition effect		
+                //$('#mask').fadeIn(1000);	
+                $('#mask').fadeTo("fast",0.8);	
+            
+                //Get the window height and width
+                var winH = $(window).height();
+                var winW = $(window).width();
+                      
+                //Set the popup window to center
+                $(dialog).css('top',  winH/2-$(dialog).height()/2);
+                $(dialog).css('left', winW/2-$(dialog).width()/2);
+            
+                //transition effect
+                $(dialog).fadeIn(1000);
+                
+                $('.window .close').click(function (e) {
+                    //Cancel the link behavior
+                    e.preventDefault();
+                    $('#mask').hide();
+                    $(dialog).hide();
+                });			
+                //if mask is clicked
+                $('#mask').click(function () {
+                    $(this).hide();
+                    $(dialog).hide();
+                }); 
+            
+            };
+            
+            hideDialog= function(){
+                $('#mask').hide();
+                $(dialog).hide();
+            }
+                    
+                    
+           
+                
+    
+    // ----- HideQuoteGame Class -------------		
+                
+            HideQuoteGame = {};
+            HideQuoteGame.hideIncrement = 3;
+            HideQuoteGame.$allWords = "";
+            HideQuoteGame.totalWordsHidden = 0;
+            HideQuoteGame.aWordsStillShowing = new Array();
+            HideQuoteGame.wordArray = "";
+            HideQuoteGame.showAllBtnDisabled = true;
+            HideQuoteGame.hideBtnDisabled = false;
+            HideQuoteGame.hiddenWordsArray = new Array();
+            
+            HideQuoteGame.buildQuoteScreen = function(introtext, quote,author,source,language,hiddenWordsString){
+			  if(hiddenWordsString.length>0){
+              	HideQuoteGame.hiddenWordsArray = hiddenWordsString.split(",");
+			  }
+              var that = this;
+            // we need to postion the window to the top in case a user has scrolled to a lower postion in the qoute menu
+            window.scroll(0,0);
+            // reset the number of words that are hidden
+            this.totalWordsHidden = 0;	
+            this.aWordsStillShowing = new Array();			
+            // remove all of the divs in the gamePanel
+            jQuery("#gamePanel div").remove();
+
+            // if there is infoText add it here
+            if(introtext.length>1){
+                HideQuoteGame.addIntrotext(introtext);
+            }
+
+            // split the quote into an array
+
+			if(isThisLogogramLanguage(language)){
+				this.wordArray = this.splitTextIntoChars(quote);
+			}else{
+				this.wordArray = unescape(quote).split(" ");
+			}	
+	
+            
+            // set the hide increment by dividing the quote length by 10
+            this.hideIncrement = this.wordArray.length/10;
+            // show this game panel div
+            showGame();
+            var wordDivArray = new Array();		
+            // now build the new gamePanel 
+            // take each word, create a div
+            // add it to the screen and add to to the stillShowingAray();
+            for(var i=0;i<this.wordArray.length;i++){
+                var div = document.createElement("div");
+                div.innerHTML=this.wordArray[i];
+                gamePanel.appendChild(div);
+                this.addToStillShowingArray(div);
+				// if there is a br tag add clearBoth class and then remove it
+				if(div.innerHTML.indexOf('<br')>-1){
+					$div = $(div);
+					$div.addClass('clearBoth');
+					$div.find('br').remove();
+				}
+            }
+            // now use jQuery to attach the class and event handlder
+            this.$allWords = jQuery("#gamePanel div");
+			if(isThisRightToLeftLanguage(language)){
+				this.$allWords.addClass("hiddenWordRTL");
+				$("#introtext").addClass("hiddenWordRTL");
+			}else if (isThisLogogramLanguage(language)){
+				this.$allWords.addClass("hiddenWordLogogram");
+			}else{
+				this.$allWords.addClass("hiddenWord");
+			}
+           // this.$allWords.addClass("hiddenWord");
+            changeTextSize(fontSize);				
+            this.$allWords.click(function(){
+                that.toggleHide(this);			
+            });
+
+            checkNavButtons();
+            this.disableShowAllBtn();
+            this.addSource(author, source,language);            
+            //HideQuoteGame.showAllWords();
+            this.hideDefaultWords(HideQuoteGame.hiddenWordsArray);
+            }
+
+            HideQuoteGame.hideDefaultWords = function(_hiddenWordsArray){
+                 // now hide the words if they were sent back in the array
+				// this allows us to handle configuration changes in android
+				if(_hiddenWordsArray!=null){
+				    if(_hiddenWordsArray.length>0){
+                        for (var i=0;i<_hiddenWordsArray.length;i++){							
+                            var thisNum = _hiddenWordsArray[i];
+                            var thisDiv = jQuery(this.$allWords[thisNum]);
+                            if(!jQuery(thisDiv).hasClass('hide')){
+                                this.hideWord(thisDiv);
+                             }
+                        }
+				    }
+				}
+            }
+            
+            // adds the introtext -- if there is one
+            HideQuoteGame.addIntrotext = function(text){
+                var introDiv = document.createElement("div");
+                //console.log('inside addIntroText(): ' + text)
+                introDiv.innerHTML='<span class=\'introtext\'>' + text + '</span>';
+               // $div = $(introDiv);
+				//$div.addClass('clearRight');
+                gamePanel.appendChild(introDiv);	
+            }
+            
+            // adds the source -- if there is one
+            HideQuoteGame.addSource = function(authorName,sourceText,language){
+                var sourceDiv = document.createElement("div");
+                var $newString = '<span class=\'source\' id=\'sourceDiv\'>';
+                
+                if(authorName.length>0){
+                    $newString = $newString + authorName;
+                    if (sourceText.length > 0) {
+                        $newString = $newString + " | ";
+                    }
+                }
+                if(sourceText.length>0){
+                    $newString = $newString + sourceText;
+                    
+                }
+                $newString = $newString + '</span>';				
+                sourceDiv.innerHTML=$newString;				
+                gamePanel.appendChild(sourceDiv);
+				if(isThisRightToLeftLanguage(language)){
+					$("#sourceDiv").addClass("RTL");
+				}
+
+				this.checkHideShowBtns();
+            }
+			
+			// this function splits a string into an array of chars
+			HideQuoteGame.splitTextIntoChars = function(inputText){
+				var tempArray = [];
+				var tempString = "";
+				for (i=0;i<inputText.length;i++){
+					tempArray.push(inputText.charAt(i));
+					//tempString = tempString + "," + inputText.charAt(i);
+				}
+				//alert(tempString);
+				return tempArray;
+			};
+            
+                        
+            HideQuoteGame.toggleHide = function(thisDiv){
+                jQuery(thisDiv).hasClass('hide')?this.showWord(thisDiv):this.hideWord(thisDiv);
+            }
+            
+            HideQuoteGame.hideWord = function(word){
+                jQuery(word).addClass('hide');
+                this.totalWordsHidden++;
+                this.removeFromStillShowingArray(word);
+                this.checkHideShowBtns();
+            }
+            
+        
+            HideQuoteGame.showWord = function(word){
+                jQuery(word).removeClass('hide');
+                this.totalWordsHidden--;
+                this.addToStillShowingArray(word);
+                this.checkHideShowBtns();
+            }
+        
+            HideQuoteGame.showAllWords = function(){
+                var that = this;
+                // reset the array
+                this.aWordsStillShowing = new Array();
+                this.$allWords.removeClass('hide');	
+                this.totalWordsHidden = 0;			
+                // then loop through the collection and add to the array
+                this.$allWords.each(function(){
+                    that.aWordsStillShowing.push(this);
+                });
+                enableHideBtn();
+               //  this.disableShowAllBtn();
+               this.checkHideShowBtns();
+            }
+            
+            HideQuoteGame.addToStillShowingArray = function(word){
+                this.aWordsStillShowing.push(word);
+            }
+            
+            // remove the word from the array so we can track what is left
+            HideQuoteGame.removeFromStillShowingArray = function(word){
+                for(var i=0; i<this.aWordsStillShowing.length-1; i++) {
+                    if(jQuery(this.aWordsStillShowing[i]).equals(word)){
+                        this.aWordsStillShowing.splice(i,1);	
+                    }
+                }
+            }
+            
+            HideQuoteGame.hideWords = function(){
+                var i=0;
+                var targetBigWords = false;
+                while(i<this.hideIncrement){
+                    if(!this.allWordsHidden()){
+                        var thisNum = Math.floor(Math.random()*this.aWordsStillShowing.length);
+                        // get the targeted div
+                        var thisDiv = jQuery(this.aWordsStillShowing[thisNum]);
+                        if(!jQuery(thisDiv).hasClass('hide')){
+                            this.hideWord(thisDiv);
+                            i++;
+                        }
+                    }else{
+                        break;
+                    }		
+                }
+                this.checkHideShowBtns();
+            }
+
+            HideQuoteGame.getHiddenWordsArray = function(){
+               // alert(this.$allWords.length);
+               var hiddenWordsArray = [];
+               for(var i=0;i<this.$allWords.length;i++){
+                 if(jQuery(this.$allWords[i]).hasClass('hide')){
+                        hiddenWordsArray.push(i);
+                 }
+               }
+               return hiddenWordsArray;
+            }
+            
+            HideQuoteGame.allWordsHidden = function(){
+                if (this.wordArray.length == this.totalWordsHidden){
+                    return true;
+                }else{
+                    return false;
+                } 
+             }
+             
+             HideQuoteGame.noWordsHidden = function(){	
+                 if(this.totalWordsHidden==0){
+                    return true;
+                 }else{
+                    return false;
+                 }			 	
+             }
+            
+            HideQuoteGame.checkHideShowBtns = function(){
+                if(this.allWordsHidden()){
+                    //this.disableHideBtn();
+                  	Android.allWordsHidden(true);
+                }else{
+                   // this.enableHideBtn();
+                  Android.allWordsHidden(false);
+                }
+                // each time create the array of hidden words
+                Android.setHiddenWordsArray(this.getHiddenWordsArray());
+                /*
+                if(this.noWordsHidden()){
+                   // this.disableShowAllBtn();
+                  Android.someWordsHidden(false);
+                }else{
+                   // this.enableShowAllBtn();
+                     Android.someWordsHidden(true);
+                }
+                */
+            }
+             
+            HideQuoteGame.disableHideBtn = function(){
+            }
+            
+            HideQuoteGame.enableHideBtn= function(){
+            }
+            
+            HideQuoteGame.disableShowAllBtn = function(){
+            }
+            
+            HideQuoteGame.enableShowAllBtn= function(){
+            }			 
+                
+            // ----- END HideQuoteGame Class -------------				
+                
+            // --------------- nav functions
+    
+            function showGame(){
+                //console.log('showGame');		
+                gamePanel.style.display = "block";
+                gamePanel.style.visibility = "visible";
+                gameWindow.style.display = "block";	
+                gameWindow.style.visibility = "visible";
+                jQuery('#gameNav').show();
+                jQuery('#quoteSelector').hide();				
+            }
+            
+            function hideGame(){
+                //console.log('hideGame');	
+                gamePanel.style.display = "none";
+                gameWindow.style.display = "none";
+                jQuery('#quoteSelector').show();	
+            }
+            // --------------- end nav functions
+                        
+            // --------------- end menu data functions
+                
+            function highlightDiv(evt){
+                var targetDiv = getDivFromEvent(evt);
+    
+            }
+            
+            function unhighlightDiv(evt){
+                var targetDiv = getDivFromEvent(evt);
+                targetDiv.style.backgroundColor="#CCCCCC";
+            } 
+            
+            function getDivFromEvent(evt){
+                var targetDiv;
+                // get the div element from the event
+                if(evt.srcElement){ // for ie
+                    targetDiv = evt.srcElement;
+                }else{ // not ie
+                    targetDiv = evt.target;		
+                }
+                return targetDiv;
+            }	
+            
+            function hideSettings(){
+                jQuery('#settings').hide();
+            }
+            function showSettings(){
+                jQuery('#settings').show();
+            }
+            
+            function setFontSize(size){
+                fontSize = size;
+                changeTextSize(fontSize);
+                // now set the cookie so we remember next time
+                document.cookie = "textSize=" + fontSize  + "; expires=15/02/2020 00:00:00";
+            }
+            
+            function changeTextSize(newSize){
+                var padding = Math.floor(newSize/12);
+                HideQuoteGame.$allWords.css('font-size',newSize+"px");
+                HideQuoteGame.$allWords.css('padding-right', padding+"px");
+                HideQuoteGame.$allWords.css('padding-left', padding+"px");
+                var sourceSize = Math.floor(newSize/3);
+                if(sourceSize<12){
+                    sourceSize = 12;
+                }
+                 $("#sourceDiv").css("font-size",sourceSize+"px");
+            }
+            
+            function checkButtons(){
+            }
+            
+            function checkNavButtons(){
+
+            }
+            
+            function disableNextQuoteBtn(){
+                getElement("nextQuoteBtn").src = "images/nav/nav_next_off.jpg";
+            }
+            
+            function enableNextQuoteBtn(){
+                getElement("nextQuoteBtn").src = "images/nav/nav_next_on.jpg";
+            }
+            
+            function disablePrevQuoteBtn(){
+                getElement("prevQuoteBtn").src = "images/nav/nav_prev_off.jpg";
+            }
+            
+            function enablePrevQuoteBtn(){
+                getElement("prevQuoteBtn").src = "images/nav/nav_prev_on.jpg";
+            }
+            
+            function disableHideBtn(){
+                getElement("hideBtn").src = "images/nav/nav_hide_off.jpg";
+            }
+            
+            function enableHideBtn(){
+                getElement("hideBtn").src = "images/nav/nav_hide_on.jpg";
+            }
+            
+            
+    
+    
+            // general functions
+            
+            function get_cookie ( cookie_name ){
+                var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
+                if ( results ){
+                    return ( unescape ( results[2] ) );
+                }else{
+                    return null;				
+                }
+            }
+            
+            function delete_cookie ( cookie_name ){
+                var cookie_date = new Date ( );  // current date & time
+                cookie_date.setTime ( cookie_date.getTime() - 1 );
+                document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+            }
+            
+            
+            function setFontSizeComboBox(fontSize){
+                // this sets the combobox to match the passed value
+                // -- in this case the cookie that was set
+                $("#fontSizeSelector option[value='" + fontSize + "']").attr('selected', 'selected');
+    
+            }
+            
+            
+             
+            String.prototype.replaceAll = function(stringToFind,stringToReplace){
+                var temp = this;
+                var index = temp.indexOf(stringToFind);
+                if(index>-1){
+                    while(index != -1){
+                        newString = temp.replace(stringToFind,stringToReplace);
+                        index = temp.indexOf(stringToFind);
+                    }
+                    return temp;
+                }else{
+                    //alert('no index');
+                    return false;
+                }
+                
+            };
+			
+			isThisLogogramLanguage = function (language){
+				language = language.toUpperCase();
+				var isLogogramLang = false;
+				if(language==="CHINESE" || language==="JAPANESE" || language==="KOREAN" || language==="VIETNAMESE" ){
+					isLogogramLang = true;
+				}
+				return isLogogramLang;
+			};
+		
+			//Right to Left languages are those that read from right to left
+			// like Arabic and Persian
+			isThisRightToLeftLanguage = function (language){
+				language = language.toUpperCase();
+				//alert("language is : " + language);
+				var isRightToLeftLang = false;
+				if(language==="ARABIC" || language==="HEBREW" || language==="YIDDISH" || language==="PERSIAN" || language==="AR" || language==="FA" || language==="YI"){
+					isRightToLeftLang = true;
+				}
+				return isRightToLeftLang;
+			};
+		
+			// Logogram langauges are those that use symbols instead of characters
+			isLogogramLanguage = function (){
+				return isThisLogogramLanguage(currQuoteSetLanguage);
+			};
+		
+			// Rigt to Left langauges are those tthat read from right to left
+			// like Arabic and Persian
+			isRightToLeftLanguage = function (){
+				return isThisRightToLeftLanguage(currQuoteSetLanguage);
+			};
+            
+        
+        </script>
+        <script type="text/javascript">
+            disableSelection(document.body) //disable text selection on entire body of page
+        </script>
+    </body>
+</html>

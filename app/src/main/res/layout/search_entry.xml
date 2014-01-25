@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_normal">
+
+<EditText
+          android:id="@+id/search_term"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:textSize="@dimen/cat_list_font_size"
+          android:maxLines="1"
+    android:hint="Enter search term"
+        >
+</EditText>
+    </FrameLayout>
