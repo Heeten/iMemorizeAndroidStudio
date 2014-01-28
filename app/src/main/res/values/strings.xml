@@ -80,6 +80,9 @@
     <string name="prompt_no_memorized">You haven\'t selected any memorized quotes yet</string>
     <string name="prompt_no_user_quotes">You haven\'t added any of your own quotes yet</string>
 
+    <string name="prompt_app_updated_title">App updated</string>
+    <string name="prompt_app_updated_text">iMemorize has been updated with new quotes. The section for The Baha\'i Faith now includes The Tablet of Carmel and the quotes from Ruhi Book 5!</string>
+
     <string name="prompt_memorize_activity_instructions_title">To memorize a quote</string>
     <string name="prompt_memorize_activity_instructions">Press a word to hide it. \n\nPress it again to show it. \n\nYou can also move forward and back in the quote set by using the buttons below.</string>
 

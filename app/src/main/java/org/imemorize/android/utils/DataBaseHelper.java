@@ -26,9 +26,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     
     private final static String TAG = "DataBaseHelper";
 
-    private static int DATABASE_VERSION = 2;
+    private static int DATABASE_VERSION = 3;
     //The Android's default system path of your application database.
-    private static String DB_PATH = "/data/data/org.imemorize.android/databases/";
+    private static String DB_PATH = "/data/data/org.imemorize/databases/";
     private static String DB_NAME = "imemorize";
     private static String DB_NAME_TEMP = "imemorize_temp";
     private static String DB_TABLE_QUOTES = "quotes";
@@ -72,7 +72,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     
     private Cursor cursor = null;
     private ArrayList<Quote> userQuotes;
-    private boolean wasDatabaseUpdated = false;
+    public boolean wasDatabaseUpdated = false;
     private ArrayList<Quote> savedQuotes;
     private ArrayList<String> savedFavorites;
     private ArrayList<String> savedMemorized;
@@ -86,7 +86,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, DATABASE_VERSION);
         this.myContext = context;
-
     }
 
 
