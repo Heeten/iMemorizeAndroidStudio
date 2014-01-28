@@ -24,6 +24,11 @@ public class Consts {
     public static final String TRACK_SCREEN_QUOTES = "quotes_view";
     public static final String TRACK_SCREEN_MEMORIZE = "memorize_view";
     public static final String TRACK_SCREEN_ADD_QUOTE_VIEW = "add_quote";
+    public static final String TRACK_RATE_REMINDER = "rate_reminder";
+    public static final String TRACK_RATE_REMINDER_SHOWED = "rate_reminder_showed";
+    public static final String TRACK_RATE_REMINDER_LATER = "rate_later";
+    public static final String TRACK_RATE_REMINDER_NO_THANKS = "rate_no_thanks";
+    public static final String TRACK_RATE_REMINDER_OK = "rate_ok_went_to_store";
 
     public static final String TRACK_EVENT_TYPE = "Event";
     public static final String TRACK_EVENT_TYPE_SEARCH = "Event_search";

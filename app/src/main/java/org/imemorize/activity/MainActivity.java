@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 
 import org.imemorize.ImemorizeApplication;
 import org.imemorize.R;
+import org.imemorize.android.utils.AppRater;
 import org.imemorize.fragments.AppUpdatedDialogFragment;
 import org.imemorize.model.Consts;
 
@@ -56,12 +57,15 @@ public class MainActivity extends BaseActivity {
         getActionBar().setDisplayHomeAsUpEnabled(false);
 
         // check if the app was updated and open a dialog
-        if(app.wasDatabaseUpdated()){
+        if(app.wasDatabaseUpdated() && ! app.hasUserBeenNotifiedOfAppUpdate){
             AppUpdatedDialogFragment dialog = new AppUpdatedDialogFragment();
             dialog.show(this.getFragmentManager(),"dialog");
+            app.hasUserBeenNotifiedOfAppUpdate = true;
         }
 
-
+        // test code
+        // AppRater.showRateDialog(this, null);
+        AppRater.app_launched(this);
 
         // set analytics
         ((ImemorizeApplication)getApplication()).trackScreen(Consts.TRACK_SCREEN_HOME);

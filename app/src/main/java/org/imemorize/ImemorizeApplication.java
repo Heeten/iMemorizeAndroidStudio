@@ -35,6 +35,7 @@ public class ImemorizeApplication extends Application {
     public final static String PREFS_FONT_SIZE_INDEX = "prefs_font_size_index";
     private String  mFavoriteQuotesString = "";
     private String  mMemorizedQuotesString = "";
+    public boolean hasUserBeenNotifiedOfAppUpdate = false;
 
     private static GoogleAnalytics mGa;
     private static Tracker mTracker;
