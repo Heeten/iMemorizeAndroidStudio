@@ -34,6 +34,7 @@
 
         <activity
             android:name="org.imemorize.activity.MemorizeActivity"
+            android:parentActivityName="org.imemorize.activity.QuoteListActivity"
             android:launchMode="singleTop" >
         </activity>
         <activity

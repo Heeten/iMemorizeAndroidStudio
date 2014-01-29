@@ -6,20 +6,18 @@ package org.imemorize.android.utils;
  *
  */
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.imemorize.ImemorizeApplication;
 import org.imemorize.model.Consts;
 
 public class AppRater {
+    private final static String TAG = "AppRater";
     private final static String APP_TITLE = "iMemorize";
     private final static String APP_PNAME = "org.imemorize";
 
@@ -54,6 +52,7 @@ public class AppRater {
         editor.commit();
     }
 
+/*
     public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {
         final Dialog dialog = new Dialog(mContext);
         dialog.setTitle("Rate " + APP_TITLE);
@@ -88,6 +87,11 @@ public class AppRater {
         b2.setText("Remind me later");
         b2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // reset launch count
+                if (editor != null) {
+                    editor.putLong("launch_count", 0);
+                    editor.commit();
+                }
                 dialog.dismiss();
                 ((ImemorizeApplication)mContext.getApplicationContext()).trackEvent(Consts.TRACK_RATE_REMINDER,Consts.TRACK_RATE_REMINDER_LATER);
             }
@@ -112,5 +116,59 @@ public class AppRater {
         dialog.show();
 
         ((ImemorizeApplication)mContext.getApplicationContext()).trackEvent(Consts.TRACK_RATE_REMINDER,Consts.TRACK_RATE_REMINDER_SHOWED);
+    }
+*/
+
+    public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor){
+        Utils.logger(TAG, "showUpdateDialog()1");
+        final String DIALOG_OK = "OK!";
+        final String DIALOG_NOT_NOW = "Remind me later";
+        final String DIALOG_DONT_REMIND_ME = "No thanks";
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Rate iMemorize")
+                .setMessage( "If you enjoy using iMemorize, please take a moment to rate it. Thanks for your support!")
+                .setCancelable(false)
+                .setPositiveButton(DIALOG_OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utils.logger(TAG, DIALOG_OK);
+                        // dont show it again since the user accepted it
+                        if (editor != null) {
+                            editor.putBoolean("dontshowagain", true);
+                            editor.commit();
+                        }
+                        mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
+                        dialog.dismiss();
+                        ((ImemorizeApplication)mContext.getApplicationContext()).trackEvent(Consts.TRACK_RATE_REMINDER,Consts.TRACK_RATE_REMINDER_OK);
+
+                    }
+                })
+                .setNeutralButton(DIALOG_NOT_NOW, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // reset launch count
+                        if (editor != null) {
+                            editor.putLong("launch_count", 0);
+                            editor.commit();
+                        }
+                        dialog.dismiss();
+                        ((ImemorizeApplication)mContext.getApplicationContext()).trackEvent(Consts.TRACK_RATE_REMINDER,Consts.TRACK_RATE_REMINDER_LATER);
+
+                    }
+                })
+                .setNegativeButton(DIALOG_DONT_REMIND_ME, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editor != null) {
+                            editor.putBoolean("dontshowagain", true);
+                            editor.commit();
+                        }
+                        dialog.dismiss();
+                        ((ImemorizeApplication)mContext.getApplicationContext()).trackEvent(Consts.TRACK_RATE_REMINDER,Consts.TRACK_RATE_REMINDER_NO_THANKS);
+
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

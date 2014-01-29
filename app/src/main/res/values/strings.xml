@@ -58,7 +58,7 @@
     <string name="label_add_quote">Save Quote</string>
     <string name="label_add_quote_and_memorize">Save quote and start memorizing</string>
 
-    <string name="search_title">Search all quotes</string>
+    <string name="search_title">Search quotes</string>
     <string name="search_btn_search">Search</string>
     <string name="search_btn_cancel">Cancel</string>
     <string name="search_error_no_text">You did not enter a search term. Please try again.</string>

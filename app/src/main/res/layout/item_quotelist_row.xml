@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/cat_list_padding">
+    android:padding="@dimen/list_view_padding">
 
     <ImageView
         android:id="@+id/iv_heart"
@@ -28,5 +28,6 @@
         android:layout_marginLeft="5dp"
         android:maxLines="1"
         android:textStyle="normal"
-        android:textSize="@dimen/cat_list_font_size" />
+
+        android:textSize="@dimen/list_view_font_size" />
 </LinearLayout>

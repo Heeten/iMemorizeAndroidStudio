@@ -4,7 +4,7 @@
           android:id="@+id/label"
           android:layout_width="fill_parent"
           android:layout_height="fill_parent"
-          android:padding="@dimen/cat_list_padding"
-          android:textSize="@dimen/cat_list_font_size"
+          android:padding="@dimen/list_view_padding"
+          android:textSize="@dimen/list_view_font_size"
           android:maxLines="1">
 </TextView>

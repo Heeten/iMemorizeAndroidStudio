@@ -161,7 +161,7 @@ public class BaseActivity extends FragmentActivity implements UploadManager.Load
 
     protected void showSearch(){
         SearchTermDialogFragment dialog = new SearchTermDialogFragment();
-       // dialog.show(this.getFragmentManager(),"Search");
+        dialog.show(this.getSupportFragmentManager(),"Search");
     }
 
     @Override

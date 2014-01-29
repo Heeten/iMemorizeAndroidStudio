@@ -350,7 +350,8 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(0,MENU_ITEM_ID_FONT_SIZE,3,"Change font size")
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                .setIcon(R.drawable.ic_font_size)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 
         // only allow user to enter quote if it is already on a user quote set
