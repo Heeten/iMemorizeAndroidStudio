@@ -113,7 +113,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
 
 
     @Override
-    protected void onResume(){
+    public void onResume(){
         super.onResume();
         memorizeView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {

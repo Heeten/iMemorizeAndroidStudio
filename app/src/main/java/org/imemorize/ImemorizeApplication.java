@@ -1,8 +1,13 @@
 package org.imemorize;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -12,11 +17,12 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
 
+import org.imemorize.android.utils.DataBaseHelper;
+import org.imemorize.android.utils.UpdateManager;
+import org.imemorize.android.utils.Utils;
 import org.imemorize.model.Category;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
-import org.imemorize.android.utils.DataBaseHelper;
-import org.imemorize.android.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +43,25 @@ public class ImemorizeApplication extends Application {
     private String  mMemorizedQuotesString = "";
     public boolean hasUserBeenNotifiedOfAppUpdate = false;
 
+    // config variables
+    public String currentAppVersionName = "";
+    public int currentAppVersionCode = 0;
+    public int latestVersionCode = 0;
+    public String latestVersionDetails = "";
+    public String latestVersionURL = "http://play.google.com";
+    public String sponsorImageURL = "";
+    public String promoURL = "http://www.history.com/interactives/history-here";
+
+
+    private SharedPreferences prefs;
+
+    // register to listen for the update manager
+    private UpdateRequestReturnedReceiver updateRequestReturnedReceiver;
+    private IntentFilter updateRequestReturnedFilter;
+    public HashMap<String,String> updateData;
+    public boolean hasShownUpdateDialogThisSession = false;
+
+
     private static GoogleAnalytics mGa;
     private static Tracker mTracker;
     
@@ -56,7 +81,34 @@ public class ImemorizeApplication extends Application {
         // this speeds up execution of the list views in particular
         resetFavoriteQuotesString();
         resetMemorizedQuotesString();
+
+        //get the versionName from the manifest
+        try{
+            currentAppVersionCode = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode;
+        }catch (NameNotFoundException e){
+            Log.v(TAG,e.getMessage());
+        }
+
+        // update the config
+        setReceivers();
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        UpdateManager updateManager = new UpdateManager();
+        registerReceiver(updateRequestReturnedReceiver, updateRequestReturnedFilter);
+        String updateURL = Consts.URL_CONFIG;
+        if(Consts.TEST_UPDATE_CONFIG){
+           updateURL = Consts.URL_CONFIG_TEST;
+        }
+        updateManager.updateConfig(this, updateURL);
+
+
         initializeGa();
+    }
+
+    @Override
+    public void onTerminate(){
+        super.onTerminate();
+        Utils.logger(TAG,">>>>>>onTerminate");
+        clearReceivers();
     }
 
     private void initializeGa() {
@@ -367,6 +419,42 @@ public class ImemorizeApplication extends Application {
     }
 
 
+    // -----------------------------------------------------
+    // App update methods
+    // -----------------------------------------------------
+    // this checks the preferences and sees if the user has elected not to be reminded of new updates
+    public boolean remindOnNewVersion(){
+
+        Utils.logger(TAG,"in remindOnNewVersion");
+            if(prefs.contains("dontRemindVersion" + currentAppVersionCode)){
+                Utils.logger(TAG,"prefs has NOT REMIND FLAG");
+                return false;
+            }else{
+                Utils.logger(TAG,"prefs *DOES NOT HAVE* NOT REMIND FLAG");
+                return true;
+            }
+    }
+
+    public boolean isLatestVersion(){
+        boolean tf = true;
+        Utils.logger(TAG,"compareVersionCode: " + latestVersionCode);
+        Utils.logger(TAG,"getCurrentAppVersion(): " + currentAppVersionCode);
+        if(latestVersionCode > currentAppVersionCode) {
+            tf = false;
+        }
+        return tf;
+    }
+
+
+    // this sets a preference not to be reminded on new updates
+    public void setDontRemindOnNewVersion(){
+        //set a preference not to remind on this version
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("dontRemindVersion" + currentAppVersionCode, true);
+        edit.commit();
+    }
+
+
     /**
      *  ANALYTICS
      *
@@ -419,6 +507,48 @@ public class ImemorizeApplication extends Application {
         );
 
     }
+
+
+
+    // -----------------------------------------------------
+    // Receivers
+    // -----------------------------------------------------
+
+    private void setReceivers(){
+        updateRequestReturnedReceiver = new UpdateRequestReturnedReceiver();
+        updateRequestReturnedFilter = new IntentFilter(UpdateManager.UPDATE_DATA_RECEIVED);
+        registerReceiver(updateRequestReturnedReceiver, updateRequestReturnedFilter);
+    }
+
+    private void clearReceivers(){
+        unregisterReceiver(updateRequestReturnedReceiver);
+    }
+
+    class UpdateRequestReturnedReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Utils.logger(TAG,"UpdateRequestReturnedReceiver -- received!");
+            // check if the preferences sponsorImage is the same and if not, download the new one -- or delete it if it doesn't exist
+            //unregister the receiver
+            unregisterReceiver(updateRequestReturnedReceiver);
+            // now get the detail from the intent
+            String key = UpdateManager.UPDATE_DATA_KEY;
+            @SuppressWarnings("unchecked")
+            HashMap<String,String> updateDetails = (HashMap<String,String>)intent.getExtras().get(key);
+            if(null == updateDetails){
+                Utils.logger(TAG,"updateDetails is NULL: ");
+            }else{
+                updateData = updateDetails;
+                Utils.logger(TAG,"save the update config variables");
+                // now set the variables so they are available anywhere in the app
+                latestVersionCode = Integer.parseInt(updateData.get(UpdateManager.KEY_CONFIG_VERSION));
+                latestVersionDetails = updateData.get(UpdateManager.KEY_CONFIG_UPDATE_DETAILS);
+                latestVersionURL = updateData.get(UpdateManager.KEY_UPDATE_URL);
+                Utils.logger(TAG, "The file on the server is: " + sponsorImageURL);
+                Utils.logger(TAG, "now change the file for the next time --: ");
+            }
+        }
+    };
 
 
 

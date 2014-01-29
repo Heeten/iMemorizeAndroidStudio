@@ -5,7 +5,11 @@ package org.imemorize.activity;
  * Created by briankurzius on 1/12/14.
  */
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -16,22 +20,42 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import org.imemorize.ImemorizeApplication;
 import org.imemorize.R;
+import org.imemorize.android.utils.UpdateManager;
+import org.imemorize.android.utils.UploadManager;
+import org.imemorize.android.utils.Utils;
 import org.imemorize.fragments.SearchTermDialogFragment;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
-import org.imemorize.android.utils.UploadManager;
-import org.imemorize.android.utils.Utils;
 
 import java.util.ArrayList;
 
 public class BaseActivity extends FragmentActivity implements UploadManager.LoadListener{
     private final static String TAG = "BaseActivity";
+    private ImemorizeApplication app;
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
+        app = (ImemorizeApplication)getApplication();
+        mContext = this;
         //getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        // check for update -- once the updateData is not null then we have loaded the config and can check against it
+        // make sure the user wants to be reminded, the update has not shown this session and it is NOT  the latest version
+        if(app.updateData!=null && !app.hasShownUpdateDialogThisSession && app.remindOnNewVersion() && !app.isLatestVersion()){
+            // we have the update data from the config
+            //do the check for a new version and remind
+            Utils.logger(TAG, "show the update view");
+            showUpdateDialog();
+            app.hasShownUpdateDialogThisSession = true;
+        }else{
+            Utils.logger(TAG, "NOT READY TO SHOW the update view");
+        }
     }
 
     @Override
@@ -160,6 +184,46 @@ public class BaseActivity extends FragmentActivity implements UploadManager.Load
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {getString(R.string.feedback_email)});
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_subject));
         startActivity(Intent.createChooser(intent, "Send feedback..."));
+    }
+
+    // -----------------------------------------------------
+    // Dialogs
+    // -----------------------------------------------------
+
+    //TODO -- set up custom view to display this
+    public void showUpdateDialog(){
+        Utils.logger(TAG, "showUpdateDialog()1");
+        final String DIALOG_OK = "OK";
+        final String DIALOG_NOT_NOW = "Not now";
+        final String DIALOG_DONT_REMIND_ME = "Dont remind me";
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(app.updateData.get(UpdateManager.KEY_CONFIG_UPDATE_DETAILS))
+                .setCancelable(false)
+                .setPositiveButton(DIALOG_OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utils.logger(TAG, DIALOG_OK);
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(app.updateData.get(UpdateManager.KEY_UPDATE_URL)));
+                        mContext.startActivity(browserIntent);
+                    }
+                })
+                .setNeutralButton(DIALOG_NOT_NOW, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utils.logger(TAG, DIALOG_NOT_NOW);
+                    }
+                })
+                .setNegativeButton(DIALOG_DONT_REMIND_ME, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utils.logger(TAG, DIALOG_DONT_REMIND_ME);
+                        app.setDontRemindOnNewVersion();
+                    }
+                });
+
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 

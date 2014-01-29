@@ -1,5 +1,6 @@
 package org.imemorize.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,13 +21,14 @@ public class MainActivity extends BaseActivity {
     private ImageButton mBtnSearchQuotes;
 
     private ImemorizeApplication app;
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         app = (ImemorizeApplication)this.getApplication();
-
+        mContext = this;
         mBtnChooseQuote = (ImageButton)findViewById(R.id.btn_choose_quote);
 
         mBtnAddQuote = (ImageButton)findViewById(R.id.btn_add_quote);
@@ -72,6 +74,17 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        // check for update
+        if(app.updateData!=null){
+            // we have the update data from the config
+            //do the check for a new version and remind
+
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // only show search if on the first view
 
@@ -88,11 +101,6 @@ public class MainActivity extends BaseActivity {
         }
         return true;
     }
-
-    
- 
-
-
 
 
 }

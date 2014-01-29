@@ -7,6 +7,13 @@ package org.imemorize.model;
 import com.google.analytics.tracking.android.Logger.LogLevel;
 
 public class Consts {
+
+
+    public static boolean TEST_UPDATE_CONFIG = false;
+    public static final String URL_CONFIG = "http://imemorize.org/app_configs/imemorize_android_prod.json";
+    public static final String URL_CONFIG_TEST = "http://imemorize.org/app_configs/imemorize_android_dev.json";
+
+
     public final static String ACTION = "action";
     public final static String ACTION_EDIT_QUOTE = "action_edit_quote";
     public final static String ACTION_ADD_QUOTE = "action_add_quote";
