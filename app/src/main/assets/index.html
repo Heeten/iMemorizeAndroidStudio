@@ -161,7 +161,7 @@
             HideQuoteGame.hideBtnDisabled = false;
             HideQuoteGame.hiddenWordsArray = new Array();
             
-            HideQuoteGame.buildQuoteScreen = function(introtext, quote,author,source,language,hiddenWordsString){
+            HideQuoteGame.buildQuoteScreen = function(introtext, quote,author,source,language,hiddenWordsString,url){
 			  if(hiddenWordsString.length>0){
               	HideQuoteGame.hiddenWordsArray = hiddenWordsString.split(",");
 			  }
@@ -226,7 +226,7 @@
 
             checkNavButtons();
             this.disableShowAllBtn();
-            this.addSource(author, source,language);            
+            this.addSource(author, source,language,url);
             //HideQuoteGame.showAllWords();
             this.hideDefaultWords(HideQuoteGame.hiddenWordsArray);
             }
@@ -258,7 +258,7 @@
             }
             
             // adds the source -- if there is one
-            HideQuoteGame.addSource = function(authorName,sourceText,language){
+            HideQuoteGame.addSource = function(authorName,sourceText,language,url){
                 var sourceDiv = document.createElement("div");
                 var $newString = '<span class=\'source\' id=\'sourceDiv\'>';
                 
@@ -269,6 +269,9 @@
                     }
                 }
                 if(sourceText.length>0){
+                    if(url.length>0){
+                     sourceText = "<a href='" + url + "'>" + sourceText + "</a>";
+                    }
                     $newString = $newString + sourceText;
                     
                 }

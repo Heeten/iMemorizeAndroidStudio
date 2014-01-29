@@ -9,6 +9,7 @@ public class Quote {
     private String author = "";
     private String reference = "";
     private String language = "English";
+    private String url = "";
     
     public Quote() {
         // TODO Auto-generated constructor stub
@@ -132,6 +133,27 @@ public class Quote {
      */
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url
+     */
+    public void setUrl(String url) {
+        String _url = "";
+        if(url!=null){
+            if(!url.equalsIgnoreCase("NULL")){
+                _url = url;
+            }
+        }
+        this.url = _url;
     }
 
     /**

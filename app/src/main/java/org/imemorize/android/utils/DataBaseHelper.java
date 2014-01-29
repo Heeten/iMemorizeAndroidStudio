@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     
     private final static String TAG = "DataBaseHelper";
 
-    private static int DATABASE_VERSION = 2;
+    private static int DATABASE_VERSION = 3;
     //The Android's default system path of your application database.
     private static String DB_PATH = "/data/data/org.imemorize/databases/";
     private static String DB_NAME = "imemorize";
@@ -48,6 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static String DB_COLUMN_AUTHOR = "author";
     private static String DB_COLUMN_REFERENCE = "reference";
     private static String DB_COLUMN_LANGUAGE = "language";
+    private static String DB_COLUMN_URL = "url";
     private static String DB_COLUMN_SORT_ORDER = "sortOrder";
     private static String DB_COLUMN_ACTIVE = "active";
     private static String DB_COLUMN_CATEGORY_NAME = "catName";
@@ -62,6 +63,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private int REFERENCE_COLUMN_INDEX ;
     private int LANGUAGE_COLUMN_INDEX ;
     private int CATEGORY_NAME_COLUMN_INDEX;
+    private int URL_COLUMN_INDEX;
     private int CATEGORY_ID_COLUMN_INDEX;
     private int CATEGORY_PARENT_COLUMN_INDEX;
     private int ID_COLUMN_INDEX;
@@ -257,7 +259,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<Quote> quoteList = new ArrayList<Quote>();
         openDataBase();
         String[] args = {catID + ""};
-        String sql = "SELECT quotes._id, quotes.text, quotes.introtext, quotes.author, quotes.reference, quotes.language FROM quotecategories, quotesets, quotes WHERE quotecategories._id = quotesets.catid and quotesets.quoteid = quotes._id and quotesets.catid = ? order by quotesets.quoteid asc";
+        String sql = "SELECT quotes._id, quotes.text, quotes.introtext, quotes.author, quotes.reference, quotes.language, quotes.url FROM quotecategories, quotesets, quotes WHERE quotecategories._id = quotesets.catid and quotesets.quoteid = quotes._id and quotesets.catid = ? order by quotesets.quoteid asc";
         Cursor cursor = myDataBase.rawQuery(sql, args);
         Log.i(TAG, "the length of the getQuoteSet result is:" + cursor.getCount());
         ID_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_ID);
@@ -266,9 +268,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         TEXT_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_TEXT);
         REFERENCE_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_REFERENCE);
         LANGUAGE_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_LANGUAGE);
+        URL_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_URL);
        
         while(cursor.moveToNext()){
-            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, INTRO_TEXT_COLUMN_INDEX, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX,LANGUAGE_COLUMN_INDEX));
+            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, INTRO_TEXT_COLUMN_INDEX, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX,LANGUAGE_COLUMN_INDEX,URL_COLUMN_INDEX));
         }
         Log.i(TAG, "the size of the quoteList result is:" + quoteList.size());
         close();
@@ -299,12 +302,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         LANGUAGE_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_LANGUAGE);
 
         while(cursor.moveToNext()){
-            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, -1, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX, LANGUAGE_COLUMN_INDEX, true));
+            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, -1, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX, LANGUAGE_COLUMN_INDEX,-1, true));
         }
 
 
         // db quotes have introtext
-         sql = "SELECT  _id, text, introtext, author, reference,language FROM quotes " +
+         sql = "SELECT  _id, text, introtext, author, reference,language, url FROM quotes " +
                 "WHERE text like '%" + searchStr + "%' " +
                 "OR author like '%" + searchStr + "%' " +
                 "OR reference like '%" + searchStr + "%' group by text" ;
@@ -316,9 +319,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         TEXT_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_TEXT);
         REFERENCE_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_REFERENCE);
         LANGUAGE_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_LANGUAGE);
+        URL_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_URL);
 
         while(cursor.moveToNext()){
-            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, INTRO_TEXT_COLUMN_INDEX, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX,LANGUAGE_COLUMN_INDEX, false));
+            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, INTRO_TEXT_COLUMN_INDEX, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX,LANGUAGE_COLUMN_INDEX,URL_COLUMN_INDEX, false));
         }
 
 
@@ -334,9 +338,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                                      final int _TEXT_COLUMN_INDEX,
                                      final int _AUTHOR_COLUMN_INDEX,
                                      final int _REFERENCE_COLUMN_INDEX,
-                                     final int _LANGUAGE_COLUMN_INDEX
+                                     final int _LANGUAGE_COLUMN_INDEX,
+                                     final int _URL_COLUMN_INDEX
                                      ){
-        return getQuoteFromCursor(cursor, _ID_COLUMN_INDEX, _INTRO_TEXT_COLUMN_INDEX, _TEXT_COLUMN_INDEX, _AUTHOR_COLUMN_INDEX, _REFERENCE_COLUMN_INDEX,_LANGUAGE_COLUMN_INDEX, false);
+        return getQuoteFromCursor(cursor, _ID_COLUMN_INDEX, _INTRO_TEXT_COLUMN_INDEX, _TEXT_COLUMN_INDEX, _AUTHOR_COLUMN_INDEX, _REFERENCE_COLUMN_INDEX,_LANGUAGE_COLUMN_INDEX,_URL_COLUMN_INDEX, false);
 
     }
 
@@ -348,6 +353,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                                      final int _AUTHOR_COLUMN_INDEX,
                                      final int _REFERENCE_COLUMN_INDEX,
                                      final int _LANGUAGE_COLUMN_INDEX,
+                                     final int _URL_COLUMN_INDEX,
                                      boolean isUserQuote){
         Quote quote = new Quote();
         if(isUserQuote){
@@ -356,6 +362,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }else{
             quote.setQuoteId(cursor.getString(_ID_COLUMN_INDEX));
             quote.setIntroText(cursor.getString(_INTRO_TEXT_COLUMN_INDEX));
+            // add reference
+            quote.setUrl(cursor.getString(_URL_COLUMN_INDEX));
         }
         quote.setId(Integer.parseInt(cursor.getString(_ID_COLUMN_INDEX)));
         quote.setText(cursor.getString(_TEXT_COLUMN_INDEX));
@@ -466,7 +474,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         LANGUAGE_COLUMN_INDEX = cursor.getColumnIndexOrThrow(DB_COLUMN_LANGUAGE);
         Log.i(TAG, "step two:");
         while(cursor.moveToNext()){
-            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, -1, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX, LANGUAGE_COLUMN_INDEX, true));
+            quoteList.add(getQuoteFromCursor(cursor, ID_COLUMN_INDEX, -1, TEXT_COLUMN_INDEX, AUTHOR_COLUMN_INDEX, REFERENCE_COLUMN_INDEX, LANGUAGE_COLUMN_INDEX,-1, true));
         }
         close();
         return quoteList;
@@ -610,13 +618,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             int colReferenceIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_REFERENCE);
             int colLanguageIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_LANGUAGE);
             int colIntroTextIndex = -1;
+            int colUrlIndex = -1;
             // if the quote is a user quote then don't get the introtext colum
             if(dbTable.equalsIgnoreCase(DB_TABLE_QUOTES)){
                 colIntroTextIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_INTRO_TEXT);
+                colUrlIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_URL);
             }
 
             while(cursor2.moveToNext()){
-                quoteList.add(getQuoteFromCursor(cursor2, colIdIndex, colIntroTextIndex, colTextIndex, colAuthorIndex, colReferenceIndex,colLanguageIndex, userQuote));
+                quoteList.add(getQuoteFromCursor(cursor2, colIdIndex, colIntroTextIndex, colTextIndex, colAuthorIndex, colReferenceIndex,colLanguageIndex,colUrlIndex, userQuote));
             }
         }
         close();
@@ -756,9 +766,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Cursor cursor2 = myDataBase.rawQuery(sql2, args2);
             Log.i(TAG, "getMemorizedQuoteSet(): USER QUOTE: NOW quoteId:" + quoteId + " : db tabel: " + dbTable);
             int colIntroTextIndex = -1;
+            int colUrlIndex = -1;
             // if the quote is a user quote then don't get the introtext colum
             if(dbTable.equalsIgnoreCase(DB_TABLE_QUOTES)){
                 colIntroTextIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_INTRO_TEXT);
+                colUrlIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_URL);
             }
 
             int colIdIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_ID);
@@ -768,7 +780,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             int colLanguageIndex = cursor2.getColumnIndexOrThrow(DB_COLUMN_LANGUAGE);
 
             while(cursor2.moveToNext()){
-                quoteList.add(getQuoteFromCursor(cursor2, colIdIndex, colIntroTextIndex, colTextIndex, colAuthorIndex, colReferenceIndex,colLanguageIndex, userQuote));
+                quoteList.add(getQuoteFromCursor(cursor2, colIdIndex, colIntroTextIndex, colTextIndex, colAuthorIndex, colReferenceIndex,colLanguageIndex,colUrlIndex, userQuote));
             }
         }
         close();

@@ -4,6 +4,7 @@ package org.imemorize.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -21,13 +22,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.imemorize.ImemorizeApplication;
+import org.imemorize.R;
+import org.imemorize.android.utils.Utils;
 import org.imemorize.fragments.FontSizeDialogFragment;
 import org.imemorize.fragments.MemorizeActivityInstructionsDialogFragment;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
-import org.imemorize.android.utils.Utils;
-import org.imemorize.ImemorizeApplication;
-import org.imemorize.R;
 
 
 public class MemorizeActivity extends BaseActivity implements OnClickListener {
@@ -131,6 +132,14 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Toast.makeText(activity, "Oh no! " + description, Toast.LENGTH_SHORT).show();
             }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView  view, String  url){
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                return true;
+            }
+
         });
         memorizeView.getSettings().setJavaScriptEnabled(true);
         memorizeView.addJavascriptInterface(new JsObject(), "Android");
@@ -234,8 +243,9 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             String reference = quote.getReference();
             String language = quote.getLanguage();
             String introText = quote.getIntroText();
+            String url = quote.getUrl();
             int id = quote.getId();
-            loadQuote(introText, text,author,reference,language);
+            loadQuote(introText, text,author,reference,language, url);
             // set the default font size from prefs
             changeFontSize(ImemorizeApplication.getSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE_INDEX, getResources().getInteger(R.integer.default_font_size_index)));
         }
@@ -246,7 +256,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
     /**
      * takes three strings and cleans them up and sets the variables
      */
-    private void loadQuote(String introText, String quote,String author, String source, String language){
+    private void loadQuote(String introText, String quote,String author, String source, String language,String url){
         introText = Utils.cleanupText(introText);
         quote = Utils.cleanupText(quote);
         author = Utils.cleanupText(author);
@@ -265,7 +275,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
 
        // String introText = "";
 
-        memorizeView.loadUrl("javascript:HideQuoteGame.buildQuoteScreen('" + introText + "', '" + quote + "','"+author+"','"+source+"','"+language+"','" + hideWordsString + "')");
+        memorizeView.loadUrl("javascript:HideQuoteGame.buildQuoteScreen('" + introText + "', '" + quote + "','"+author+"','"+source+"','"+language+"','" + hideWordsString + "','" + url + "')");
         // add introtext if there is any
        // memorizeView.loadUrl("javascript: HideQuoteGame.addIntrotext('intro text')");
 
