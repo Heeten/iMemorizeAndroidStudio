@@ -2,6 +2,7 @@ package org.imemorize.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,7 +52,7 @@ public class MainActivity extends BaseActivity {
         mBtnSearchQuotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSearch();
+                app.showSearch((FragmentActivity)mContext);
             }
         });
 
@@ -89,7 +90,7 @@ public class MainActivity extends BaseActivity {
         // only show search if on the first view
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_main, menu);
+        menuInflater.inflate(R.menu.activity_list, menu);
         return  super.onCreateOptionsMenu(menu);
     }
 

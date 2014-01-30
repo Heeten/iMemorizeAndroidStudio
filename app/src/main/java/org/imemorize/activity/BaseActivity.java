@@ -23,7 +23,6 @@ import org.imemorize.R;
 import org.imemorize.android.utils.UpdateManager;
 import org.imemorize.android.utils.UploadManager;
 import org.imemorize.android.utils.Utils;
-import org.imemorize.fragments.SearchTermDialogFragment;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
 
@@ -159,10 +158,6 @@ public class BaseActivity extends FragmentActivity implements UploadManager.Load
         ((ImemorizeApplication)getApplication()).trackEvent(Consts.TRACK_EVENT_TYPE_SEARCH,searchTerm);
     }
 
-    protected void showSearch(){
-        SearchTermDialogFragment dialog = new SearchTermDialogFragment();
-        dialog.show(this.getSupportFragmentManager(),"Search");
-    }
 
     @Override
     public void onStart() {

@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/list_bg_color">
+    android:background="@color/list_bg_color"
+    >
     <TextView
         android:id="@+id/list_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_choose_quote"
-        android:padding="@dimen/cat_list_padding"
+        android:paddingLeft="@dimen/list_view_padding"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
         android:background="@color/category_header_bg"/>
     <ListView
         android:id="@android:id/list"

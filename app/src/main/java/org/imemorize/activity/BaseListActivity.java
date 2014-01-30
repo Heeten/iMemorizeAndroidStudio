@@ -8,16 +8,16 @@ import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
+import org.imemorize.ImemorizeApplication;
 import org.imemorize.R;
 import org.imemorize.model.Quote;
-import org.imemorize.ImemorizeApplication;
 
 import java.util.ArrayList;
 
 /**
  * Created by briankurzius on 1/17/14.
  */
-public class BaseListActivity extends ListActivity{
+public class BaseListActivity extends ListActivity {
 
     protected ImemorizeApplication app;
     protected ArrayList<Quote> quoteList = null;

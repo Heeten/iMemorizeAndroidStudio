@@ -25,7 +25,7 @@ import android.widget.Toast;
 import org.imemorize.ImemorizeApplication;
 import org.imemorize.R;
 import org.imemorize.android.utils.Utils;
-import org.imemorize.fragments.FontSizeDialogFragment;
+import org.imemorize.fragments.FontSizeSliderDialogFragment;
 import org.imemorize.fragments.MemorizeActivityInstructionsDialogFragment;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
@@ -236,7 +236,6 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
         TextView quoteSequence = (TextView) findViewById(R.id.quote_sequence);
         quoteSequence.setText("Quote " + (app.currentQuoteSetIndex + 1) + " of " + app.currentQuoteSet.size());
 
-        Log.i(TAG,"quote:" + quote);
         if(quote!=null){
             String text = quote.getText();
             String author = quote.getAuthor();
@@ -244,10 +243,9 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             String language = quote.getLanguage();
             String introText = quote.getIntroText();
             String url = quote.getUrl();
-            int id = quote.getId();
             loadQuote(introText, text,author,reference,language, url);
             // set the default font size from prefs
-            changeFontSize(ImemorizeApplication.getSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE_INDEX, getResources().getInteger(R.integer.default_font_size_index)));
+            changeFontSizeByValue(ImemorizeApplication.getSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE, getResources().getInteger(R.integer.default_font_size)));
         }
         invalidateOptionsMenu();
 
@@ -271,9 +269,6 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
                 hideWordsString += hiddenWordsArray[i];
             }
         }
-        // Log.d(TAG, " hideWordsString: " + hideWordsString);
-
-       // String introText = "";
 
         memorizeView.loadUrl("javascript:HideQuoteGame.buildQuoteScreen('" + introText + "', '" + quote + "','"+author+"','"+source+"','"+language+"','" + hideWordsString + "','" + url + "')");
         // add introtext if there is any
@@ -294,19 +289,15 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
 
     }
 
-    
     /// this sets the actual font size in the webview
-    public void changeFontSize(int fontSizeIndex){
-        Log.d(TAG, "the font sie should be:" + fontSizeIndex);
+    public void changeFontSizeByValue(int fontSize){
+        Log.d(TAG, "the font size should be:" + fontSize);
         // save to prefs
-        ImemorizeApplication.setSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE_INDEX,fontSizeIndex);
+        ImemorizeApplication.setSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE,fontSize);
         // get the String array, select the index, remove the pt. and get the integer value
         String[] fontArray = getResources().getStringArray(R.array.font_size_array);
-        int fontSize = Integer.parseInt(fontArray[fontSizeIndex].replace(" pt.", ""));
         memorizeView.loadUrl("javascript:setFontSize(" + fontSize + ")");
     }
-
-
 
     private void deleteUserQuote(){
         app.deleteUserQuote();
@@ -321,14 +312,6 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
         this.startActivity(intent);
     }
 
-
-    private void showFontSizeSelector(){
-        changeFontSize(30);
-    }
-
-    private void addQuoteToFavorites(){
-
-    }
 
     // -----------------------------------------------------
     // Menu -- 
@@ -409,7 +392,9 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
                 break;
             case MENU_ITEM_ID_FONT_SIZE:
                 Log.i(TAG, "change font size");
-                FontSizeDialogFragment fontDialog = new FontSizeDialogFragment();
+                // FontSizeDialogFragment fontDialog = new FontSizeDialogFragment();
+                //fontDialog.show(this.getFragmentManager(),"fontSize");
+                FontSizeSliderDialogFragment fontDialog = new FontSizeSliderDialogFragment();
                 fontDialog.show(this.getFragmentManager(),"fontSize");
                 break;
             case MENU_ITEM_ID_ADD_QUOTE:

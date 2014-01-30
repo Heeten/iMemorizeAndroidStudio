@@ -147,7 +147,7 @@ public class AddQuoteActivity extends BaseActivity {
     }
 
     private void setLanguagePickerText(String language){
-        btnChooseLanguage.setText(getString(R.string.btn_language_text) + language);
+        btnChooseLanguage.setText(language);
     }
 
     private void addQuoteAndMemorize(){

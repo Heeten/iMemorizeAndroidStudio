@@ -36,7 +36,7 @@ public class FontSizeDialogFragment extends DialogFragment {
 //                    }
 //                })
 
-                .setSingleChoiceItems(R.array.font_size_array, ImemorizeApplication.getSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE_INDEX,0),
+                .setSingleChoiceItems(R.array.font_size_array, ImemorizeApplication.getSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE,30),
                         new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
@@ -52,7 +52,7 @@ public class FontSizeDialogFragment extends DialogFragment {
                         MemorizeActivity ma = (MemorizeActivity)getActivity();
 //                        String[] mArray = getActivity().getResources().getStringArray(R.array.font_size_array);
 //                        int fontSize = Integer.parseInt(mArray[selectedFontItem].replace(" pt.", ""));
-                        ma.changeFontSize(selectedFontItem);
+                        ma.changeFontSizeByValue(selectedFontItem);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

@@ -17,6 +17,8 @@
             android:id="@+id/tvText"
             android:layout_gravity="left|center_vertical"
             android:hint="@string/label_text"
+
+        android:layout_marginBottom="@dimen/margin_normal"
             />
 
     <EditText
@@ -26,7 +28,9 @@
             android:ems="5"
             android:id="@+id/tvAuthor"
             android:layout_gravity="left|center_vertical"
-            android:hint="@string/label_author"/>
+            android:hint="@string/label_author"
+
+        android:layout_marginBottom="@dimen/margin_normal"/>
 
     <EditText
             android:layout_width="match_parent"
@@ -35,7 +39,9 @@
             android:ems="10"
             android:id="@+id/tvReference"
             android:layout_gravity="left|center_vertical"
-            android:hint="@string/label_reference"/>
+            android:hint="@string/label_reference"
+
+        />
 
 
     <LinearLayout
@@ -44,13 +50,31 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     >
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_language_text"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_small"
+                />
+            <Button
             android:id="@+id/btn_choose_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_language_text"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+            android:text="English"
+                android:background="#DDD"
             android:padding="@dimen/padding_normal"
             />
+        </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

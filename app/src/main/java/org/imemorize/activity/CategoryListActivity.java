@@ -117,7 +117,7 @@ public class CategoryListActivity extends BaseListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_main, menu);
+        menuInflater.inflate(R.menu.activity_list, menu);
         return  super.onCreateOptionsMenu(menu);
     }
 

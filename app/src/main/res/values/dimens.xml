@@ -3,6 +3,7 @@
     <dimen name="toolbar_separator_width">1dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_normal">12dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
     <dimen name="cat_list_font_size">16sp</dimen>
     <dimen name="cat_list_padding">1dp</dimen>
 

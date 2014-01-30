@@ -100,7 +100,7 @@ public class QuoteListActivity extends BaseListActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_main, menu);
+        menuInflater.inflate(R.menu.activity_list, menu);
         return  super.onCreateOptionsMenu(menu);
     }
 
@@ -115,7 +115,7 @@ public class QuoteListActivity extends BaseListActivity  {
         }
         return true;
     }
-    
+
     @Override
     //@SuppressWarnings("unchecked")
     protected void onListItemClick(ListView l, View v, int position, long id) {

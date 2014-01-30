@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -20,6 +21,7 @@ import com.google.analytics.tracking.android.Tracker;
 import org.imemorize.android.utils.DataBaseHelper;
 import org.imemorize.android.utils.UpdateManager;
 import org.imemorize.android.utils.Utils;
+import org.imemorize.fragments.SearchTermDialogFragment;
 import org.imemorize.model.Category;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
@@ -38,7 +40,7 @@ public class ImemorizeApplication extends Application {
     private final String PREFS_NAME = "prefs";
     private int currentQuoteSetCatId = 0;
     private String currentCategoryName = "";
-    public final static String PREFS_FONT_SIZE_INDEX = "prefs_font_size_index";
+    public final static String PREFS_FONT_SIZE = "prefs_font_size";
     private String  mFavoriteQuotesString = "";
     private String  mMemorizedQuotesString = "";
     public boolean hasUserBeenNotifiedOfAppUpdate = false;
@@ -549,6 +551,12 @@ public class ImemorizeApplication extends Application {
             }
         }
     };
+
+
+    public void showSearch(final FragmentActivity activity){
+        SearchTermDialogFragment dialog = new SearchTermDialogFragment();
+        dialog.show(activity.getSupportFragmentManager(),"Search");
+    }
 
 
 
