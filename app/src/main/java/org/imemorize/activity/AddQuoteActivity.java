@@ -120,6 +120,8 @@ public class AddQuoteActivity extends BaseActivity {
         Log.d(TAG,"populateQuote(): the language is: " + thisQuote.getLanguage());
     }
 
+
+
     private void addQuote(){
         if(!tvText.getText().toString().isEmpty()){
             String text = Utils.cleanupAddQuoteText(tvText.getText().toString());
