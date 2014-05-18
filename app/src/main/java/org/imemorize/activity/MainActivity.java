@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.crashlytics.android.Crashlytics;
 import org.imemorize.ImemorizeApplication;
 import org.imemorize.R;
 import org.imemorize.android.utils.AppRater;
@@ -27,6 +28,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
+
         setContentView(R.layout.activity_main);
         app = (ImemorizeApplication)this.getApplication();
         mContext = this;
@@ -57,12 +60,12 @@ public class MainActivity extends BaseActivity {
         });
 
         // turn off the actionbar up button
-        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // check if the app was updated and open a dialog
         if(app.wasDatabaseUpdated() && ! app.hasUserBeenNotifiedOfAppUpdate){
             AppUpdatedDialogFragment dialog = new AppUpdatedDialogFragment();
-            dialog.show(this.getFragmentManager(),"dialog");
+            dialog.show(this.getSupportFragmentManager(),"dialog");
             app.hasUserBeenNotifiedOfAppUpdate = true;
         }
 

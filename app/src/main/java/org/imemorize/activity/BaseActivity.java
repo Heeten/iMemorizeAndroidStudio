@@ -11,7 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -28,7 +28,7 @@ import org.imemorize.model.Quote;
 
 import java.util.ArrayList;
 
-public class BaseActivity extends FragmentActivity implements UploadManager.LoadListener{
+public class BaseActivity extends ActionBarActivity implements UploadManager.LoadListener{
     private final static String TAG = "BaseActivity";
     private ImemorizeApplication app;
     private Context mContext;

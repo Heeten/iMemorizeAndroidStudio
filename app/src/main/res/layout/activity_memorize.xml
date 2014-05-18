@@ -28,16 +28,16 @@
         android:id="@+id/buttonHolder"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center"
          >
         <Button
             android:id="@+id/btnPrevious"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/btn_label_previous"
             android:background="@drawable/selector_memorize_button_bg"
-            style="@android:style/Widget.Holo.Button.Borderless"
+            android:textStyle="bold"
             android:visibility="visible"
             android:layout_weight="1" />
         <View
@@ -47,12 +47,13 @@
         <Button
 	        android:id="@+id/btnHideWords"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_height="match_parent"
 	        android:text="@string/btn_label_hide_words"
             android:paddingRight="@dimen/padding_normal"
             android:paddingLeft="@dimen/padding_normal"
             android:background="@drawable/selector_memorize_button_bg"
-            style="@android:style/Widget.Holo.Button.Borderless"
+            android:textStyle="bold"
+
              />
         <View
             android:layout_height="match_parent"
@@ -62,11 +63,11 @@
 	    <Button
 	        android:id="@+id/btnShowAllWords"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_height="match_parent"
 	        android:text="@string/btn_label_show_words"
             android:paddingRight="@dimen/padding_normal"
             android:paddingLeft="@dimen/padding_normal"
-            style="@android:style/Widget.Holo.Button.Borderless"
+            android:textStyle="bold"
             android:background="@drawable/selector_memorize_button_bg"
              />
         <View
@@ -76,10 +77,10 @@
 	   <Button
             android:id="@+id/btnNext"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/btn_label_next"
            android:background="@drawable/selector_memorize_button_bg"
-            style="@android:style/Widget.Holo.Button.Borderless"
+            android:textStyle="bold"
            android:visibility="visible"
            android:layout_weight="1" />
     </LinearLayout>

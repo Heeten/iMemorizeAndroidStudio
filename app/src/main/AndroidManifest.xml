@@ -8,6 +8,7 @@
     <application
         android:name="org.imemorize.ImemorizeApplication"
         android:allowBackup="true"
+        android:debuggable="false"
         android:icon="@drawable/ic_launcher"
         android:logo="@drawable/default_app_logo"
         android:label="@string/app_name"
@@ -42,6 +43,7 @@
             android:label="@string/app_name" >
 
     </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="0c6e4379666da882c2d47796b69bbc2bf281de0a"/>
     </application>
 
 </manifest>

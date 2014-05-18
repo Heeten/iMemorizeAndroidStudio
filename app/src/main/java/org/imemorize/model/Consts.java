@@ -23,7 +23,6 @@ public class Consts {
     public static final String GA_ANALYTICS_ID = "UA-2194207-8";
     public static final int GA_DISPATCH_PERIOD = 30;
     public static final boolean GA_IS_DRY_RUN = false;
-
     public static final LogLevel GA_LOG_VERBOSITY = LogLevel.INFO;
 
     public static final String TRACK_SCREEN_HOME = "home_view";

@@ -1,9 +1,9 @@
 package org.imemorize.activity;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by briankurzius on 1/17/14.
  */
-public class BaseListActivity extends ListActivity {
+public class BaseListActivity extends ActionBarActivity {
 
     protected ImemorizeApplication app;
     protected ArrayList<Quote> quoteList = null;
@@ -26,7 +26,7 @@ public class BaseListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         app = (ImemorizeApplication) this.getApplication();
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         super.onCreate(savedInstanceState);
     }

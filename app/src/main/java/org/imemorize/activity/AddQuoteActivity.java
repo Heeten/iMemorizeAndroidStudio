@@ -108,7 +108,7 @@ public class AddQuoteActivity extends BaseActivity {
     private void showLanguageSpinner(){
         LanguageDialogFragment dialog = new LanguageDialogFragment();
         dialog.setLanguage(getLanguageIndex(selectedLanguage));
-        dialog.show(this.getFragmentManager(),"language");
+        dialog.show(this.getSupportFragmentManager(),"language");
     }
 
     private void populateQuote(){

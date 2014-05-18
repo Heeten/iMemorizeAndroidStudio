@@ -11,6 +11,8 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.MenuCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +31,7 @@ import org.imemorize.fragments.FontSizeSliderDialogFragment;
 import org.imemorize.fragments.MemorizeActivityInstructionsDialogFragment;
 import org.imemorize.model.Consts;
 import org.imemorize.model.Quote;
+
 
 
 public class MemorizeActivity extends BaseActivity implements OnClickListener {
@@ -73,7 +76,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         app = (ImemorizeApplication) this.getApplication();
         setContentView(R.layout.activity_memorize);
-        getActionBar().setTitle("");
+        getSupportActionBar().setTitle("");
         
         btnHideWords = (Button)findViewById(R.id.btnHideWords);
         btnShowAllWords = (Button)findViewById(R.id.btnShowAllWords);
@@ -91,7 +94,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
         if(!app.getSharedPrefBoolean(KEY_INITED_MEMORIZE_ACTIVITY, false)){
             // when the user first uses the screen show the instructions
             MemorizeActivityInstructionsDialogFragment dialog = new MemorizeActivityInstructionsDialogFragment();
-            dialog.show(this.getFragmentManager(),"dialog");
+            dialog.show(this.getSupportFragmentManager(),"dialog");
             app.setSharedPrefBoolean(KEY_INITED_MEMORIZE_ACTIVITY, true);
         }
 
@@ -247,7 +250,9 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             // set the default font size from prefs
             changeFontSizeByValue(ImemorizeApplication.getSharedPrefInt(ImemorizeApplication.PREFS_FONT_SIZE, getResources().getInteger(R.integer.default_font_size)));
         }
-        invalidateOptionsMenu();
+
+
+        supportInvalidateOptionsMenu();
 
         ((ImemorizeApplication)getApplication()).trackEvent(Consts.TRACK_EVENT_TYPE_MEMORIZE,Utils.getQuoteTextForTracking(currentQuote));
     }
@@ -329,36 +334,35 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
         int heartDrawable = R.drawable.ic_action_favorite;
         if(isQuoteFavorite)heartDrawable = R.drawable.ic_action_favorite_selected;
 
-        menu.add(0,MENU_ITEM_ID_FAVORITES,0,"toggle favorites")
-            .setIcon(heartDrawable)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        MenuItem item = menu.add(0,MENU_ITEM_ID_FAVORITES,0,"toggle favorites");
+        item.setIcon(heartDrawable);
+        MenuCompat.setShowAsAction(item,MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-        menu.add(0,MENU_ITEM_ID_MEMORIZED,1,"toggle memorized")
-                .setIcon(memorizedDrawable)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item = menu.add(0,MENU_ITEM_ID_MEMORIZED,1,"toggle memorized");
+        item.setIcon(memorizedDrawable);
+        MenuCompat.setShowAsAction(item,MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-        menu.add(0,MENU_ITEM_ID_SHARE,2,"share")
-            .setIcon(R.drawable.ic_action_share)
+        item = menu.add(0,MENU_ITEM_ID_SHARE,2,"share");
+        item.setIcon(R.drawable.ic_action_share);
             //.setActionProvider(mShareActionProvider)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        MenuCompat.setShowAsAction(item,MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        menu.add(0,MENU_ITEM_ID_FONT_SIZE,3,"Change font size")
-                .setIcon(R.drawable.ic_font_size)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item = menu.add(0,MENU_ITEM_ID_FONT_SIZE,3,"Change font size");
+        item.setIcon(R.drawable.ic_font_size);
+        MenuCompat.setShowAsAction(item,MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
 
         // only allow user to enter quote if it is already on a user quote set
         if(isUserQuote){
 
-            menu.add(0,MENU_ITEM_ID_ADD_QUOTE,4,"Add Quote")
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+           item = menu.add(0,MENU_ITEM_ID_ADD_QUOTE,4,"Add Quote");
+            MenuCompat.setShowAsAction(item,MenuItemCompat.SHOW_AS_ACTION_NEVER);
 
-            menu.add(0,MENU_ITEM_ID_DELETE_QUOTE,5,"Delete Quote")
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-            menu.add(0,MENU_ITEM_ID_EDIT_QUOTE,6,"Edit Quote")
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            item = menu.add(0,MENU_ITEM_ID_DELETE_QUOTE,5,"Delete Quote");
+            MenuCompat.setShowAsAction(item,MenuItemCompat.SHOW_AS_ACTION_NEVER);
+            item = menu.add(0,MENU_ITEM_ID_EDIT_QUOTE,6,"Edit Quote");
+            MenuCompat.setShowAsAction(item,MenuItemCompat.SHOW_AS_ACTION_NEVER);
         }
-
         /*menu.add(0,3,3,"Feedback")
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
@@ -366,7 +370,9 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 */
 
-
+        if(android.os.Build.VERSION.SDK_INT>10){
+            // add action
+        }
         return true;
 
 
@@ -395,7 +401,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
                 // FontSizeDialogFragment fontDialog = new FontSizeDialogFragment();
                 //fontDialog.show(this.getFragmentManager(),"fontSize");
                 FontSizeSliderDialogFragment fontDialog = new FontSizeSliderDialogFragment();
-                fontDialog.show(this.getFragmentManager(),"fontSize");
+                fontDialog.show(this.getSupportFragmentManager(),"fontSize");
                 break;
             case MENU_ITEM_ID_ADD_QUOTE:
                 Log.i(TAG, "add quote");
@@ -426,7 +432,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             ((ImemorizeApplication)getApplication()).trackEvent(Consts.TRACK_EVENT_TYPE_ADD_FAVORITE,Utils.getQuoteTextForTracking(currentQuote));
         }
         isQuoteFavorite=!isQuoteFavorite;
-        invalidateOptionsMenu();
+        supportInvalidateOptionsMenu();
         Toast.makeText(this,toastMsg,Toast.LENGTH_SHORT).show();
     }
 
@@ -441,7 +447,7 @@ public class MemorizeActivity extends BaseActivity implements OnClickListener {
             ((ImemorizeApplication)getApplication()).trackEvent(Consts.TRACK_EVENT_TYPE_ADD_MEMORIZED,Utils.getQuoteTextForTracking(currentQuote));
         }
         isQuoteMemorized=!isQuoteMemorized;
-        invalidateOptionsMenu();
+        supportInvalidateOptionsMenu();
         Toast.makeText(this,toastMsg,Toast.LENGTH_SHORT).show();
     }
 
