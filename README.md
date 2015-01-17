@@ -1,10 +1,10 @@
 # iMemorizeAndroidStudio
 iMemorize using the gradle build system and android studio
 
->> Database is SQLLite that synchs with the online database for iMemorize.org
->> db46966_quotations DB at MediaTemple
+-Database is SQLLite that synchs with the online database for iMemorize.org
+-db46966_quotations DB at MediaTemple
 
->> to synch tables
+to synch tables
 
 1. Make modifications to the sqllite table using Firefox plugin: https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/
 2. Export the table using Export Wizard > select "Include Create Table statement"
