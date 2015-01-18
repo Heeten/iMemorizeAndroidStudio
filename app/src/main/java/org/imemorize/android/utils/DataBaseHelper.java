@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     
     private final static String TAG = "DataBaseHelper";
 
-    private static int DATABASE_VERSION = 2;
+    private static int DATABASE_VERSION = 3;
     //The Android's default system path of your application database.
     private static String DB_PATH = "/data/data/org.imemorize/databases/";
     private static String DB_NAME = "imemorize";

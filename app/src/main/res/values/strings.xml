@@ -81,8 +81,9 @@
     <string name="prompt_no_memorized">You haven\'t selected any memorized quotes yet</string>
     <string name="prompt_no_user_quotes">You haven\'t added any of your own quotes yet</string>
 
-    <string name="prompt_app_updated_title">App updated</string>
-    <string name="prompt_app_updated_text">iMemorize has been updated! New quotes include: \n\nInspiration > Bite-Sized Wisdom \n\nHistorical Figures > Mark Twain \n\nReligion/Spirituality > Baha\'i Faith > Ruhi Institute Materials > Book 5 \n\n </string>
+    <string name="prompt_app_updated_title">Latest news</string>
+    <!--<string name="prompt_app_updated_text">New quotes include:\n\nReligion/Spirituality > Baha\'i Faith:\n\nRuhi Institute Materials | Book 8 Unit 1\n\nWritings of Baha\'u\'llah | Kitab-i-Aqdas, Kitab-Iqan and Seven Valleys\n\nJunior Youth Group Materials</string>-->
+    <string name="prompt_app_updated_text">We have added a large number of new quotes from the Baha\'i Faith under: Religion/Spirituality!</string>
 
     <string name="prompt_memorize_activity_instructions_title">To memorize a quote</string>
     <string name="prompt_memorize_activity_instructions">Press a word to hide it. \n\nPress it again to show it. \n\nYou can also move forward and back in the quote set by using the buttons below.</string>
